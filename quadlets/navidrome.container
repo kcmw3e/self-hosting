@@ -1,0 +1,28 @@
+# Podman Quadlet configuration for Navidrome.
+#
+# Somewhat based on the Docker installation guide:
+#     https://www.navidrome.org/docs/installation/docker/
+#
+# Some other useful information for making a Systemd unit (without a container):
+#     https://www.navidrome.org/docs/installation/linux/#create-a-systemd-unit
+# ------------------------------------------------------------------------------
+
+[Container]
+ContainerName=navidrome
+Image=docker.io/deluan/navidrome:latest
+AutoUpdate=registry
+NoNewPrivileges=true
+PublishPort=${SELFHOST_NAVIDROME_PORT}:4533
+
+Volume=${SELFHOST_MUSIC_DIR}:/music:ro,z
+Volume=${SELFHOST_NAVIDROME_DATA_DIR}:/data:Z
+
+Environment=ND_DATADIR=/data
+Environment=ND_MUSICFOLDER=/music
+
+[Service]
+Restart=always
+EnvironmentFile=%h/.config/self-hosted/navidrome.env
+
+[Install]
+WantedBy=default.target
