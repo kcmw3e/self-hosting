@@ -20,7 +20,12 @@ home := env('HOME')
 # installed.
 quadlets-dir := env("SELFHOST_QUADLETS_DIRECTORY", 'quadlets')
 
-install pattern="":
+
+
+install: install-containers
+
+
+install-containers pattern="": make-install-env-dir install-config
     #!/usr/bin/env fish
 
     set quadlets (
