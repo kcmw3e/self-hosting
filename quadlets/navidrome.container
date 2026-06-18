@@ -22,7 +22,7 @@ Environment=ND_MUSICFOLDER=/music
 
 [Service]
 Restart=always
-EnvironmentFile=%h/.config/self-hosted/navidrome.env
+EnvironmentFile=-%h/.config/self-hosted/navidrome.env
 
 [Install]
 WantedBy=default.target
