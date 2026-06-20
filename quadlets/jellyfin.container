@@ -1,0 +1,24 @@
+# Podman Quadlet configuration for Jellyfin.
+#
+# Based on the official installation guide for installing using Podman as a
+# Systemd unit:
+#     https://jellyfin.org/docs/general/installation/container/?method=podman
+# ------------------------------------------------------------------------------
+
+[Container]
+Image=docker.io/jellyfin/jellyfin:latest
+AutoUpdate=registry
+PublishPort=${SELFHOST_JELLYFIN_PORT}
+UserNS=keep-id
+AddDevice=/dev/dri:/dev/dri
+Volume=${SELFHOST_JELLYFIN_CONFIG_DIR}:/config:Z
+Volume=${SELFHOST_JELLYFIN_CACHE_DIR}:/cache:Z
+Volume=${SELFHOST_JELLYFIN_MEDIA_DIR}:/media:Z
+Volume=${SELFHOST_MUSIC_DIR}:/music:ro,z
+
+[Service]
+SuccessExitStatus=0 143
+EnvironmentFile=-%h/.config/self-hosted/jellyfin.env
+
+[Install]
+WantedBy=default.target
