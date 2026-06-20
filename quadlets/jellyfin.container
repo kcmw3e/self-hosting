@@ -8,7 +8,7 @@
 [Container]
 Image=docker.io/jellyfin/jellyfin:latest
 AutoUpdate=registry
-PublishPort=${SELFHOST_JELLYFIN_PORT}
+PublishPort=${SELFHOST_JELLYFIN_PORT}:8096/tcp
 UserNS=keep-id
 AddDevice=/dev/dri:/dev/dri
 Volume=${SELFHOST_JELLYFIN_CONFIG_DIR}:/config:Z
