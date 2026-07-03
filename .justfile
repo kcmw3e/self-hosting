@@ -21,6 +21,7 @@ home := env('HOME')
 quadlets-dir := env("SELFHOST_QUADLETS_DIRECTORY", 'quadlets')
 
 env-files-dir := env("SELFHOST_ENV_FILES_DIRECTORY", 'env')
+template-files-dir := env("SELFHOST_ENV_FILES_DIRECTORY", 'templates')
 
 # Directory to where configurations for self-hosted services and related things
 # are written. Configurations written here are not necessarily dictated by a
@@ -38,6 +39,7 @@ config-install-dir := env(
 # that, if this is changed, some containers which reference files in this
 # directory will need to be edited to reference to this directory.
 env-install-dir := env('SELFHOST_ENV_INSTALL_DIR', config-install-dir)
+env-generated-install-dir := env-install-dir/'generated'
 
 
 install: install-containers install-config
@@ -57,7 +59,7 @@ install-containers pattern="": make-install-env-dir install-config
     end
 
 
-install-config: make-install-config-dir install-env
+install-config: make-install-config-dir install-env install-env-generated
 
 
 install-env pattern="": make-install-env-dir
@@ -74,6 +76,24 @@ install-env pattern="": make-install-env-dir
     end
 
 
+install-env-generated pattern="": make-install-env-generated-dir
+    #!/usr/bin/env fish
+
+    set files (
+        find '{{template-files-dir}}' -type f -name '*{{pattern}}*.env.template'
+    )
+
+    printf 'Generating base env files for containers.\n'
+    for template in $files
+        set filename (path basename -E $template)
+        set file (
+            string join / '{{env-generated-install-dir}}' $filename
+        )
+        printf '  %s -> %s\n' $template $file
+        cat $template | envsubst > $file
+    end
+
+
 [private]
 @make-install-config-dir:
     mkdir -p '{{config-install-dir}}'
@@ -82,3 +102,8 @@ install-env pattern="": make-install-env-dir
 [private]
 @make-install-env-dir:
     mkdir -p '{{env-install-dir}}'
+
+
+[private]
+@make-install-env-generated-dir:
+    mkdir -p '{{env-generated-install-dir}}'
