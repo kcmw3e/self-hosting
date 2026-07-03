@@ -14,7 +14,7 @@ AutoUpdate=registry
 NoNewPrivileges=true
 PublishPort=${SELFHOST_NAVIDROME_PORT}:4533
 
-Volume=${SELFHOST_MUSIC_DIR}:/music:ro,z
+Volume=${SELFHOST_NAVIDROME_MUSIC_DIR}:/music:ro,z
 Volume=${SELFHOST_NAVIDROME_DATA_DIR}:/data:Z
 
 Environment=ND_DATADIR=/data
