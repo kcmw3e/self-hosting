@@ -18,10 +18,10 @@ home := env('HOME')
 
 # The directory where quadlet definitions are stored, and which can be
 # installed.
-quadlets-dir := env("SELFHOST_QUADLETS_DIRECTORY", 'quadlets')
+quadlets-dir := env('SELFHOST_QUADLETS_DIRECTORY', 'quadlets')
 
-env-files-dir := env("SELFHOST_ENV_FILES_DIRECTORY", 'env')
-template-files-dir := env("SELFHOST_ENV_FILES_DIRECTORY", 'templates')
+env-files-dir := env('SELFHOST_ENV_FILES_DIRECTORY', 'env')
+template-files-dir := env('SELFHOST_ENV_FILES_DIRECTORY', 'templates')
 
 # Directory to where configurations for self-hosted services and related things
 # are written. Configurations written here are not necessarily dictated by a
@@ -31,7 +31,7 @@ template-files-dir := env("SELFHOST_ENV_FILES_DIRECTORY", 'templates')
 # containers if needed.
 config-install-dir := env(
     'SELFHOST_CONFIG_INSTALL_DIRECTORY',
-    home/".config"/"self-hosted",
+    home/'.config'/'self-hosted',
 )
 
 # Directory where `.env` files are stored for this project. Unless specifically
@@ -45,7 +45,7 @@ env-generated-install-dir := env-install-dir/'generated'
 install: install-containers install-config
 
 
-install-containers pattern="": make-install-env-dir install-config
+install-containers pattern='': make-install-env-dir install-config
     #!/usr/bin/env fish
 
     set quadlets (
@@ -55,14 +55,14 @@ install-containers pattern="": make-install-env-dir install-config
     printf 'Installing quadlets:\n'
     for file in $quadlets
         printf '  %s\n' $file
-        "{{podman}}" quadlet install $file -r &| string replace -r '^' '    '
+        '{{podman}}' quadlet install $file -r &| string replace -r '^' '    '
     end
 
 
 install-config: make-install-config-dir install-env install-env-generated
 
 
-install-env pattern="": make-install-env-dir
+install-env pattern='': make-install-env-dir
     #!/usr/bin/env fish
 
     set files (
@@ -76,7 +76,7 @@ install-env pattern="": make-install-env-dir
     end
 
 
-install-env-generated pattern="": make-install-env-generated-dir
+install-env-generated pattern='': make-install-env-generated-dir
     #!/usr/bin/env fish
 
     set files (
