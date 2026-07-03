@@ -13,9 +13,6 @@ alias i := install
 
 podman := require('podman')
 
-home := env('HOME')
-
-
 # The directory where quadlet definitions are stored, and which can be
 # installed.
 quadlets-dir := env('SELFHOST_QUADLETS_DIRECTORY', 'quadlets')
@@ -31,7 +28,7 @@ template-files-dir := env('SELFHOST_ENV_FILES_DIRECTORY', 'templates')
 # containers if needed.
 config-install-dir := env(
     'SELFHOST_CONFIG_INSTALL_DIRECTORY',
-    home/'.config'/'self-hosted',
+    config_dir()/'self-hosted',
 )
 
 # Directory where `.env` files are stored for this project. Unless specifically
